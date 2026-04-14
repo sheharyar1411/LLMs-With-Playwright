@@ -1,48 +1,40 @@
-# llms_with_playwright
+# 🤖 LLMs with Playwright: Intelligent HR Automation
 
-Playwright automation scripts that use a local LLM (Ollama/Qwen) to extract and classify HR data, then populate HRMS forms.
+![Node.js](https://img.shields.io/badge/Node.js-ES_Modules-339933?logo=nodedotjs&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-Automation-2EAD33?logo=playwright&logoColor=white)
+![Ollama](https://img.shields.io/badge/Ollama-Local_LLM-black?logo=ollama&logoColor=white)
+![Model](https://img.shields.io/badge/Model-Qwen2.5:7b-blue)
 
-## What this project does
+A modern automation toolkit demonstrating how to combine deterministic web automation (Playwright) with probabilistic generative AI (Local LLMs via Ollama) to solve complex, unstructured HR workflows.
 
-- Authenticates into HRMS and stores Playwright session state
-- Extracts structured new-hire data from unstructured text
-- Auto-fills employee onboarding form fields
-- Classifies HR employee queries into Type/SubType/Subject
+By keeping the LLM inference entirely local, this project ensures **100% data privacy**—a critical requirement when handling sensitive HR and employee data.
 
-## Tech stack
+---
 
-- Node.js (ES modules)
-- Playwright
-- dotenv
-- Local Ollama endpoint (`qwen2.5:7b`)
+## ⚡ Core Capabilities
 
-## Project structure
+* **🔒 Stateful Authentication Flow:** Logs into the HRMS portal once and securely stores the Playwright session state, bypassing redundant login steps for subsequent scripts.
+* **🧠 Unstructured to Structured Data Extraction:** Uses `qwen2.5:7b` to parse messy, unstructured new-hire emails and map them to strict JSON schemas.
+* **🤖 Autonomous Data Entry:** Playwright consumes the LLM-generated JSON to programmatically target and populate complex onboarding form fields.
+* **🗂️ Intelligent Ticket Classification:** Analyzes employee queries to auto-categorize them by `Type`, `SubType`, and `Subject` before submission.
 
-- `src/auth-setup.js` - login flow and session state creation
-- `src/add_employee.js` - parse onboarding email and fill employee create form
-- `src/index.js` - classify HR query and submit structured fields
+---
 
-## Setup
+## 🏗️ Architecture & Workflow
 
-1. Install dependencies:
-   `npm install`
-2. Create `src/.env` with your own credentials:
-   - `DEMO_PORTAL_CODE`
-   - `DEMO_PORTAL_USERNAME`
-   - `DEMO_PORTAL_PASSWORD`
-3. Ensure Ollama is running locally and the model is available.
-
-## Run
-
-1. Create auth state:
-   `node src/auth-setup.js`
-2. Run onboarding automation:
-   `node src/add_employee.js`
-3. Run query classification flow:
-   `node src/index.js`
-
-## Security notes
-
-- Do not commit real credentials, session state, or personal employee data.
-- Keep `.env` and `auth-state.json` ignored.
-- Replace hardcoded sample personal data in scripts before publishing publicly.
+```mermaid
+sequenceDiagram
+    participant User
+    participant Playwright
+    participant Ollama (Qwen2.5)
+    participant HRMS Portal
+    
+    User->>Playwright: Run Auth Setup
+    Playwright->>HRMS Portal: Authenticate & Save Session
+    HRMS Portal-->>Playwright: auth-state.json
+    
+    User->>Playwright: Run Onboarding/Classification
+    Playwright->>Ollama (Qwen2.5): Send unstructured HR text
+    Ollama (Qwen2.5)-->>Playwright: Return structured JSON
+    Playwright->>HRMS Portal: Load auth-state & navigate to forms
+    Playwright->>HRMS Portal: Auto-fill fields using LLM JSON & Submit
