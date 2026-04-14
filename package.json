@@ -1,0 +1,17 @@
+{
+  "name": "llms_with_playwright",
+  "version": "1.0.0",
+  "description": "Playwright + local LLM automation scripts for HRMS login, employee onboarding, and HR query classification.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.1",
+    "playwright": "^1.59.1"
+  }
+}
